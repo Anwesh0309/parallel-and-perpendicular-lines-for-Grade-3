@@ -61,9 +61,42 @@ const phrases = [
   { key: 'play_correct_3', style: 'celebration', text: 'Excellent! You got it!' },
   { key: 'play_correct_4', style: 'celebration', text: 'Brilliant answer!' },
   { key: 'play_incorrect_1', style: 'encouragement', text: 'Not quite! Check the graph carefully.' },
+  { key: 'play_correct_new', style: 'celebration', text: 'That is correct! Great job!' },
+  { key: 'play_incorrect_new', style: 'encouragement', text: "Not quite! Let's try again." },
   { key: 'play_hint_1', style: 'thinking', text: 'Here is your first hint — look at the highlighted part of the graph.' },
   { key: 'play_hint_2', style: 'thinking', text: 'Here is your second hint — think about the scale value and count again.' },
   { key: 'play_badge', style: 'celebration', text: 'Badge unlocked! Congratulations!' },
+
+  // ── GRAPH DETECTIVE & AXIS ARCHITECT MISSING ──
+  { key: 'sim_axis_horizontal', style: 'encouragement', text: 'Great! The horizontal category axis is placed!' },
+  
+  { key: 'gd_bar_fix', style: 'celebration', text: 'The bar was leaning! All bars must be perfectly parallel — standing straight up.' },
+  { key: 'gd_bar_hint', style: 'thinking', text: 'One of the bars is leaning sideways. Tap it!' },
+  { key: 'gd_bar_ans', style: 'statement', text: 'Here is the answer: The bar was leaning! All bars must be perfectly parallel — standing straight up.' },
+
+  { key: 'gd_axis_fix', style: 'celebration', text: 'The axes were not at 90°! Axes must be perpendicular — meeting at a right angle.' },
+  { key: 'gd_axis_hint', style: 'thinking', text: 'The corner where the axes meet is not a right angle. Tap it!' },
+  { key: 'gd_axis_ans', style: 'statement', text: 'Here is the answer: The axes were not at 90°! Axes must be perpendicular — meeting at a right angle.' },
+
+  { key: 'gd_grid_fix', style: 'celebration', text: 'The gridlines were unevenly spaced! Gridlines must be parallel and equally spaced.' },
+  { key: 'gd_grid_hint', style: 'thinking', text: 'One gridline is too close to another. Tap the odd one out!' },
+  { key: 'gd_grid_ans', style: 'statement', text: 'Here is the answer: The gridlines were unevenly spaced! Gridlines must be parallel and equally spaced.' },
+
+  { key: 'gd_height_fix', style: 'celebration', text: 'The bar height did not match the scale! Count: value ÷ scale = number of squares.' },
+  { key: 'gd_height_hint', style: 'thinking', text: 'One bar is drawn at the wrong height for its value. Tap it!' },
+  { key: 'gd_height_ans', style: 'statement', text: 'Here is the answer: The bar height did not match the scale! Count: value ÷ scale = number of squares.' },
+
+  // ── WORLD PLAY INTROS ──
+  { key: 'world_go_0', style: 'statement', text: "Fruit Fair — let's go!" },
+  { key: 'world_go_1', style: 'statement', text: "Pet Parade — let's go!" },
+  { key: 'world_go_2', style: 'statement', text: "Sports Day — let's go!" },
+  { key: 'world_go_3', style: 'statement', text: "Weather Watch — let's go!" },
+  { key: 'world_go_4', style: 'statement', text: "Toy Box Tally — let's go!" },
+  { key: 'world_go_5', style: 'statement', text: "Book Nook — let's go!" },
+  { key: 'world_go_6', style: 'statement', text: "Snack Survey — let's go!" },
+  { key: 'world_go_7', style: 'statement', text: "Garden Grid — let's go!" },
+  { key: 'world_go_8', style: 'statement', text: "Star Gazers — let's go!" },
+  { key: 'world_go_9', style: 'statement', text: "Grand Gallery — let's go!" },
 
   // ── WORLD INTROS ──
   { key: 'world_0', style: 'statement', text: 'World 1 — Fruit Fair! Answer 10 questions about fruit vote graphs. Scale is 1. Good luck!' },
@@ -213,8 +246,8 @@ async function generateAudio(phrase) {
   const filepath = path.join(OUTPUT_DIR, filename);
 
   if (fs.existsSync(filepath)) {
-    console.log(`✓ Exists: ${filename}`);
-    return { key: phrase.text.trim().toLowerCase().replace(/\s+/g,' '), file: filename };
+    // We are deliberately regenerating all files for the updated API key, so we remove the `return` skip behavior
+    console.log(`Force regenerating: ${filename}`);
   }
 
   const settings = STYLES[phrase.style] || STYLES.statement;
