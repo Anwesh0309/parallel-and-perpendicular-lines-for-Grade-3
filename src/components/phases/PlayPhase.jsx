@@ -63,7 +63,7 @@ export default function PlayPhase({ state, dispatch, onComplete }) {
     if (correct) {
       SFX.correct();
       dispatch({ type: 'ANSWER_CORRECT', usedHint: hintsShown > 0 });
-      if (audioEnabled) narrateText('That correct you doing nice', 'celebration');
+      if (audioEnabled) narrateText('That is correct! Great job!', 'celebration');
       setFeedbackState({ correct: true, explanation: question.explanation, auto: true });
       setHintsShown(0);
       setLocalAttempts(0);
@@ -76,7 +76,7 @@ export default function PlayPhase({ state, dispatch, onComplete }) {
       const newAttempts = localAttempts + 1;
       setLocalAttempts(newAttempts);
       dispatch({ type: 'ANSWER_INCORRECT' });
-      if (audioEnabled) narrateText('not quite lets try again', 'encouragement');
+      if (audioEnabled) narrateText("Not quite! Let's try again.", 'encouragement');
       if (newAttempts >= 2) {
         setFeedbackState({ correct: false, explanation: question.explanation, auto: true });
         setTimeout(() => {
@@ -227,37 +227,28 @@ export default function PlayPhase({ state, dispatch, onComplete }) {
 
       {/* Feedback popup Overlay */}
       {feedbackState && (
-        <div style={{
-          position: 'fixed',
-          top: 0, left: 0, width: '100vw', height: '100vh',
-          backgroundColor: 'rgba(10, 5, 25, 0.7)',
-          display: 'flex', justifyContent: 'center', alignItems: 'center',
-          zIndex: 9999,
-          animation: 'fadeIn 0.2s ease'
-        }}>
+        <>
           <div style={{
-            background: feedbackState.correct ? '#4CAF50' : '#E53935',
-            color: 'white',
-            padding: '30px 40px',
-            borderRadius: '24px',
-            textAlign: 'center',
-            maxWidth: '400px',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.4)',
-            animation: 'popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both'
-          }}>
+            position: 'fixed',
+            top: 0, left: 0, width: '100vw', height: '100vh',
+            backgroundColor: 'rgba(10, 5, 25, 0.7)',
+            zIndex: 499,
+            animation: 'fadeIn 0.2s ease'
+          }} />
+          <div className={`feedback-popup ${feedbackState.correct ? 'correct-pop' : 'incorrect-pop'}`}>
             <div style={{ fontSize: '48px', marginBottom: '10px' }}>
               {feedbackState.correct ? '🎉' : '🥺'}
             </div>
-            <div style={{ fontFamily: 'var(--font-head)', fontSize: '24px', fontWeight: 900, marginBottom: '8px' }}>
+            <div style={{ fontFamily: 'var(--font-head)', fontSize: '24px', fontWeight: 900, marginBottom: '8px', color: feedbackState.correct ? 'var(--accent-green)' : 'var(--accent-pink)' }}>
               {feedbackState.correct ? 'Correct! 🎉' : 'Not quite!'}
             </div>
             {feedbackState.explanation && (
-              <div style={{ fontSize: '14px', lineHeight: 1.5, fontWeight: 600 }}>
+              <div style={{ fontSize: '14px', lineHeight: 1.5, fontWeight: 600, color: 'var(--text-white)' }}>
                 {feedbackState.explanation}
               </div>
             )}
           </div>
-        </div>
+        </>
       )}
     </div>
   );
